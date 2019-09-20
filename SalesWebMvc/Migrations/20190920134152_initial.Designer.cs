@@ -2,25 +2,30 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SalesWebMvc.Data;
 
 namespace SalesWebMvc.Migrations
 {
     [DbContext(typeof(SalesWebMvcContext))]
-    partial class SalesWebMvcContextModelSnapshot : ModelSnapshot
+    [Migration("20190920134152_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("SalesWebMvc.Models.Department", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -34,7 +39,8 @@ namespace SalesWebMvc.Migrations
             modelBuilder.Entity("SalesWebMvc.Models.SalesRecord", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double>("Amount");
 
@@ -54,13 +60,14 @@ namespace SalesWebMvc.Migrations
             modelBuilder.Entity("SalesWebMvc.Models.Seller", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double>("BaseSalary");
 
                     b.Property<DateTime>("BirthDate");
 
-                    b.Property<int>("DepartmentId");
+                    b.Property<int?>("DepartmentId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50);
@@ -88,8 +95,7 @@ namespace SalesWebMvc.Migrations
                 {
                     b.HasOne("SalesWebMvc.Models.Department", "Department")
                         .WithMany("Sellers")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DepartmentId");
                 });
 #pragma warning restore 612, 618
         }

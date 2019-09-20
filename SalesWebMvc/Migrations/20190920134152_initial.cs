@@ -1,26 +1,32 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SalesWebMvc.Migrations
 {
-    public partial class OtherEntities : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Department",
-                maxLength: 50,
-                nullable: false,
-                oldClrType: typeof(string),
-                oldNullable: true);
+            migrationBuilder.CreateTable(
+                name: "Department",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Department", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Seller",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Email = table.Column<string>(maxLength: 50, nullable: true),
                     BirthDate = table.Column<DateTime>(nullable: false),
@@ -43,7 +49,7 @@ namespace SalesWebMvc.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<double>(nullable: false),
                     Satus = table.Column<int>(nullable: false),
@@ -79,12 +85,8 @@ namespace SalesWebMvc.Migrations
             migrationBuilder.DropTable(
                 name: "Seller");
 
-            migrationBuilder.AlterColumn<string>(
-                name: "Name",
-                table: "Department",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldMaxLength: 50);
+            migrationBuilder.DropTable(
+                name: "Department");
         }
     }
 }

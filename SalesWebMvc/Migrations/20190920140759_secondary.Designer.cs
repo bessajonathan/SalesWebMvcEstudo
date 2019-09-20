@@ -9,14 +9,15 @@ using SalesWebMvc.Data;
 namespace SalesWebMvc.Migrations
 {
     [DbContext(typeof(SalesWebMvcContext))]
-    [Migration("20190912164334_OtherEntities")]
-    partial class OtherEntities
+    [Migration("20190920140759_secondary")]
+    partial class secondary
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("SalesWebMvc.Models.Department", b =>
                 {
@@ -61,7 +62,7 @@ namespace SalesWebMvc.Migrations
 
                     b.Property<DateTime>("BirthDate");
 
-                    b.Property<int?>("DepartmentId");
+                    b.Property<int>("DepartmentId");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50);
@@ -89,7 +90,8 @@ namespace SalesWebMvc.Migrations
                 {
                     b.HasOne("SalesWebMvc.Models.Department", "Department")
                         .WithMany("Sellers")
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
